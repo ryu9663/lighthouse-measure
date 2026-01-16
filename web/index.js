@@ -12,10 +12,22 @@ const chartSection = document.getElementById('chartSection');
 const tableSection = document.getElementById('tableSection');
 const overviewSection = document.getElementById('overviewSection');
 
+// Measure control elements
+const measureBtn = document.getElementById('measureBtn');
+const measureStatus = document.getElementById('measureStatus');
+const statusOutput = document.getElementById('statusOutput');
+
+let statusPollInterval = null;
+
 // Initialize
 document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
+  // Setup measure button
+  if (measureBtn) {
+    measureBtn.addEventListener('click', startMeasurement);
+  }
+
   try {
     const response = await fetch('./reports/data.json');
     if (!response.ok) {
@@ -25,6 +37,97 @@ async function init() {
     renderDashboard();
   } catch (error) {
     showError(error.message);
+  }
+}
+
+// Measurement functions
+async function startMeasurement() {
+  try {
+    measureBtn.disabled = true;
+    measureBtn.classList.add('running');
+    measureBtn.querySelector('.btn-icon').textContent = '◉';
+    measureBtn.querySelector('.btn-text').textContent = '측정 중...';
+
+    measureStatus.style.display = 'block';
+    updateStatusUI('running', '측정 시작 중...', []);
+
+    const response = await fetch('/api/measure', { method: 'POST' });
+    const result = await response.json();
+
+    if (!result.success) {
+      updateStatusUI('error', result.message, []);
+      resetMeasureButton();
+      return;
+    }
+
+    // Start polling for status
+    statusPollInterval = setInterval(pollMeasureStatus, 1000);
+
+  } catch (error) {
+    updateStatusUI('error', `오류: ${error.message}`, []);
+    resetMeasureButton();
+  }
+}
+
+async function pollMeasureStatus() {
+  try {
+    const response = await fetch('/api/measure/status');
+    const status = await response.json();
+
+    if (status.running) {
+      updateStatusUI('running', '측정 진행 중...', status.output);
+    } else {
+      clearInterval(statusPollInterval);
+      statusPollInterval = null;
+
+      if (status.error) {
+        updateStatusUI('error', `오류: ${status.error}`, status.output);
+      } else {
+        updateStatusUI('completed', '측정 완료!', status.output);
+        // Reload data after completion
+        setTimeout(reloadData, 1000);
+      }
+
+      resetMeasureButton();
+    }
+  } catch (error) {
+    clearInterval(statusPollInterval);
+    statusPollInterval = null;
+    updateStatusUI('error', `상태 확인 오류: ${error.message}`, []);
+    resetMeasureButton();
+  }
+}
+
+function updateStatusUI(state, text, output) {
+  const indicator = measureStatus.querySelector('.status-indicator');
+  const statusText = measureStatus.querySelector('.status-text');
+
+  indicator.className = 'status-indicator ' + state;
+  statusText.textContent = text;
+
+  if (output && output.length > 0) {
+    statusOutput.textContent = output.slice(-20).join('\n');
+    statusOutput.scrollTop = statusOutput.scrollHeight;
+  }
+}
+
+function resetMeasureButton() {
+  measureBtn.disabled = false;
+  measureBtn.classList.remove('running');
+  measureBtn.querySelector('.btn-icon').textContent = '▶';
+  measureBtn.querySelector('.btn-text').textContent = '측정 시작';
+}
+
+async function reloadData() {
+  try {
+    const response = await fetch('./reports/data.json?t=' + Date.now());
+    if (response.ok) {
+      data = await response.json();
+      renderDashboard();
+      updateStatusUI('completed', '측정 완료! 데이터가 새로고침되었습니다.', []);
+    }
+  } catch (error) {
+    console.error('데이터 새로고침 실패:', error);
   }
 }
 

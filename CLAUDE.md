@@ -31,6 +31,7 @@
 measure-lighthouse/
 ├── package.json          # 의존성 및 npm scripts
 ├── measure.js            # 측정 스크립트 (Lighthouse Node API)
+├── server.js             # Express 서버 (대시보드 + 측정 API)
 ├── urls.json             # URL 목록
 ├── CLAUDE.md             # 프로젝트 문서
 └── web/
@@ -134,15 +135,16 @@ const MAX_RETRIES = 2;     // 재시도 횟수 변경
 - 데이터 로딩: `fetch("./reports/data.json")`
 
 ### 기능
-1. URL 선택 드롭다운
-2. 정렬 옵션 (기본 / 낮은 점수 순 / 높은 편차 순)
-3. KPI 카드
+1. **측정 시작 버튼** - 대시보드에서 직접 `npm run measure` 실행
+2. URL 선택 드롭다운
+3. 정렬 옵션 (기본 / 낮은 점수 순 / 높은 편차 순)
+4. KPI 카드
    - Performance Score (평균, 범위)
    - LCP, INP, CLS, TBT (평균, 표준편차)
-4. Score 추이 그래프 (Canvas)
-5. Run별 상세 테이블
-6. 전체 URL Overview 테이블
-7. Raw JSON 링크
+5. Score 추이 그래프 (Canvas)
+6. Run별 상세 테이블
+7. 전체 URL Overview 테이블
+8. Raw JSON 링크
 
 ### 점수 색상
 - 90+ : 초록 (Good)
@@ -154,15 +156,20 @@ const MAX_RETRIES = 2;     // 재시도 횟수 변경
 # 1. 의존성 설치
 npm install
 
-# 2. 측정 실행
-npm run measure
-
-# 3. 대시보드 서버 실행
+# 2. 대시보드 서버 실행
 npm run serve
 
-# 4. 브라우저에서 확인
+# 3. 브라우저에서 확인
 open http://localhost:3000
+
+# 4. 대시보드의 "측정 시작" 버튼 클릭 또는 CLI에서 직접 실행
+npm run measure
 ```
+
+### npm scripts
+- `npm run serve` - Express 서버 실행 (대시보드 + 측정 API)
+- `npm run measure` - CLI에서 직접 측정 실행
+- `npm run serve:static` - 정적 파일만 서빙 (측정 버튼 비활성)
 
 ## 확장 방법
 ### URL 추가
@@ -173,7 +180,6 @@ open http://localhost:3000
   "https://codingvalley.com/ldm/6",
   "https://codingvalley.com/ldm/7",
   "https://codingvalley.com/ldm/9",
-  "https://codingvalley.com/new-page",
   "https://toss.im/"
 ]
 ```
@@ -184,7 +190,8 @@ open http://localhost:3000
 ## 의존성
 - lighthouse: ^12.0.0
 - chrome-launcher: ^1.1.0
-- serve: ^14.2.0 (devDependency)
+- express: ^4.18.2 (서버 + 측정 API)
+- serve: ^14.2.0 (devDependency, 정적 서빙용)
 
 ## 완료 조건
 - `npm run measure` 실행 시:

@@ -17,6 +17,21 @@
     <div id="error" class="error" style="display: none;"></div>
 
     <main id="main" style="display: none;">
+      <!-- Measure Control -->
+      <section class="measure-control">
+        <button id="measureBtn" class="measure-btn">
+          <span class="btn-icon">▶</span>
+          <span class="btn-text">측정 시작</span>
+        </button>
+        <div id="measureStatus" class="measure-status" style="display: none;">
+          <div class="status-header">
+            <span class="status-indicator"></span>
+            <span class="status-text">대기 중</span>
+          </div>
+          <div class="status-output" id="statusOutput"></div>
+        </div>
+      </section>
+
       <!-- Meta Info -->
       <section class="meta-info">
         <div class="meta-item">
