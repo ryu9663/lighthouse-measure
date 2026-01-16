@@ -1,0 +1,17 @@
+{
+  "name": "measure-lighthouse",
+  "version": "1.0.0",
+  "description": "Lighthouse landing page benchmark automation with static dashboard",
+  "type": "module",
+  "scripts": {
+    "measure": "node measure.js",
+    "serve": "npx serve web -l 3000"
+  },
+  "dependencies": {
+    "lighthouse": "^12.0.0",
+    "chrome-launcher": "^1.1.0"
+  },
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}

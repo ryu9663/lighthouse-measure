@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lighthouse Performance Dashboard</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Lighthouse Performance Dashboard</h1>
+      <p class="subtitle">Landing Page Performance Benchmark Results</p>
+    </header>
+
+    <div id="loading" class="loading">Loading data...</div>
+    <div id="error" class="error" style="display: none;"></div>
+
+    <main id="main" style="display: none;">
+      <!-- Meta Info -->
+      <section class="meta-info">
+        <div class="meta-item">
+          <span class="meta-label">Measured At:</span>
+          <span id="measuredAt" class="meta-value">-</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Throttling:</span>
+          <span class="meta-value">None (실제 성능)</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Runs per URL:</span>
+          <span id="runsPerUrl" class="meta-value">-</span>
+        </div>
+      </section>
+
+      <!-- URL Selector -->
+      <section class="url-selector">
+        <label for="urlSelect">Select URL:</label>
+        <select id="urlSelect">
+          <option value="">-- Select URL --</option>
+        </select>
+        <div class="sort-options">
+          <label>Sort by:</label>
+          <button id="sortDefault" class="sort-btn active">Default</button>
+          <button id="sortLowScore" class="sort-btn">Lowest Score</button>
+          <button id="sortHighVariance" class="sort-btn">Highest Variance</button>
+        </div>
+      </section>
+
+      <!-- KPI Cards -->
+      <section id="kpiSection" class="kpi-section" style="display: none;">
+        <h2>Performance Summary</h2>
+        <div class="kpi-cards">
+          <div class="kpi-card score-card">
+            <div class="kpi-label">Performance Score</div>
+            <div class="kpi-value" id="kpiScore">-</div>
+            <div class="kpi-range" id="kpiScoreRange">-</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">LCP</div>
+            <div class="kpi-value" id="kpiLCP">-</div>
+            <div class="kpi-sub" id="kpiLCPStddev">-</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">INP</div>
+            <div class="kpi-value" id="kpiINP">-</div>
+            <div class="kpi-sub" id="kpiINPStddev">-</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">CLS</div>
+            <div class="kpi-value" id="kpiCLS">-</div>
+            <div class="kpi-sub" id="kpiCLSStddev">-</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">TBT</div>
+            <div class="kpi-value" id="kpiTBT">-</div>
+            <div class="kpi-sub" id="kpiTBTStddev">-</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Chart -->
+      <section id="chartSection" class="chart-section" style="display: none;">
+        <h2>Score Trend (10 Runs)</h2>
+        <div class="chart-container">
+          <canvas id="scoreChart" width="800" height="300"></canvas>
+        </div>
+      </section>
+
+      <!-- Results Table -->
+      <section id="tableSection" class="table-section" style="display: none;">
+        <h2>Run Details</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Run</th>
+                <th>Score</th>
+                <th>LCP (ms)</th>
+                <th>INP (ms)</th>
+                <th>CLS</th>
+                <th>TBT (ms)</th>
+                <th>Raw Report</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody">
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- All URLs Overview -->
+      <section id="overviewSection" class="overview-section">
+        <h2>All URLs Overview</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>URL</th>
+                <th>Avg Score</th>
+                <th>Score Range</th>
+                <th>Avg LCP</th>
+                <th>Avg TBT</th>
+                <th>Successful Runs</th>
+              </tr>
+            </thead>
+            <tbody id="overviewBody">
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Data source: <code>reports/data.json</code></p>
+      <p class="hint">Note: If viewing locally, use <code>npm run serve</code> to avoid CORS issues.</p>
+    </footer>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+{
+  "startedAt": "2026-01-16T08:09:58.511Z",
+  "config": {
+    "urls": [
+      "https://codingvalley.com",
+      "https://codingvalley.com/ldm/6",
+      "https://codingvalley.com/ldm/7",
+      "https://codingvalley.com/ldm/9",
+      "https://codingvalley.com/new-page",
+      "https://toss.im/"
+    ],
+    "runsPerUrl": 1,
+    "throttling": {
+      "rttMs": 0,
+      "throughputKbps": 0,
+      "cpuSlowdownMultiplier": 1,
+      "requestLatencyMs": 0,
+      "downloadThroughputKbps": 0,
+      "uploadThroughputKbps": 0
+    },
+    "throttlingMethod": "provided",
+    "categories": [
+      "performance"
+    ]
+  },
+  "summary": [
+    {
+      "url": "https://codingvalley.com",
+      "runs": 1,
+      "successfulRuns": 1,
+      "avg": {
+        "performanceScore": 76,
+        "LCP_ms": 2652,
+        "INP_ms": null,
+        "CLS": null,
+        "TBT_ms": 20
+      },
+      "stddev": {
+        "performanceScore": 0,
+        "LCP_ms": 0,
+        "INP_ms": null,
+        "CLS": null,
+        "TBT_ms": 0
+      },
+      "min": {
+        "performanceScore": 76
+      },
+      "max": {
+        "performanceScore": 76
+      }
+    },
+    {
+      "url": "https://codingvalley.com/ldm/6",
+      "runs": 1,
+      "successfulRuns": 1,
+      "avg": {
+        "performanceScore": 47,
+        "LCP_ms": 2701,
+        "INP_ms": null,
+        "CLS": null,
+        "TBT_ms": 827
+      },
+      "stddev": {
+        "performanceScore": 0,
+        "LCP_ms": 0,
+        "INP_ms": null,
+        "CLS": null,
+        "TBT_ms": 0
+      },
+      "min": {
+        "performanceScore": 47
+      },
+      "max": {
+        "performanceScore": 47
+      }
+    },
+    {
+      "url": "https://codingvalley.com/ldm/7",
+      "runs": 1,
+      "successfulRuns": 1,
+      "avg": {
+        "performanceScore": 90,
+        "LCP_ms": 1510,
+        "INP_ms": null,
+        "CLS": null,
+        "TBT_ms": null
+      },
+      "stddev": {
+        "performanceScore": 0,
+        "LCP_ms": 0,
+        "INP_ms": null,
+        "CLS": null,
+        "TBT_ms": null
+      },
+      "min": {
+        "performanceScore": 90
+      },
+      "max": {
+        "performanceScore": 90
+      }
+    },
+    {
+      "url": "https://codingvalley.com/ldm/9",
+      "runs": 1,
+      "successfulRuns": 1,
+      "avg": {
+        "performanceScore": 98,
+        "LCP_ms": 986,
+        "INP_ms": null,
+        "CLS": null,
+        "TBT_ms": 25
+      },
+      "stddev": {
+        "performanceScore": 0,
+        "LCP_ms": 0,
+        "INP_ms": null,
+        "CLS": null,
+        "TBT_ms": 0
+      },
+      "min": {
+        "performanceScore": 98
+      },
+      "max": {
+        "performanceScore": 98
+      }
+    },
+    {
+      "url": "https://codingvalley.com/new-page",
+      "runs": 1,
+      "successfulRuns": 1,
+      "avg": {
+        "performanceScore": 0,
+        "LCP_ms": null,
+        "INP_ms": null,
+        "CLS": null,
+        "TBT_ms": null
+      },
+      "stddev": {
+        "performanceScore": 0,
+        "LCP_ms": null,
+        "INP_ms": null,
+        "CLS": null,
+        "TBT_ms": null
+      },
+      "min": {
+        "performanceScore": 0
+      },
+      "max": {
+        "performanceScore": 0
+      }
+    },
+    {
+      "url": "https://toss.im/",
+      "runs": 1,
+      "successfulRuns": 1,
+      "avg": {
+        "performanceScore": 99,
+        "LCP_ms": 427,
+        "INP_ms": null,
+        "CLS": 0,
+        "TBT_ms": 89
+      },
+      "stddev": {
+        "performanceScore": 0,
+        "LCP_ms": 0,
+        "INP_ms": null,
+        "CLS": 0,
+        "TBT_ms": 0
+      },
+      "min": {
+        "performanceScore": 99
+      },
+      "max": {
+        "performanceScore": 99
+      }
+    }
+  ],
+  "runs": [
+    {
+      "url": "https://codingvalley.com",
+      "runIndex": 1,
+      "fetchedAt": "2026-01-16T08:10:00.094Z",
+      "performanceScore": 76,
+      "metrics": {
+        "LCP_ms": 2652.238,
+        "INP_ms": null,
+        "CLS": null,
+        "TBT_ms": 19.628000000000043,
+        "FCP_ms": 427.483,
+        "SI_ms": 6222
+      },
+      "rawFile": "raw/codingvalley.com_run1.json"
+    },
+    {
+      "url": "https://codingvalley.com/ldm/6",
+      "runIndex": 1,
+      "fetchedAt": "2026-01-16T08:10:35.931Z",
+      "performanceScore": 47,
+      "metrics": {
+        "LCP_ms": 2701.441,
+        "INP_ms": null,
+        "CLS": null,
+        "TBT_ms": 826.897,
+        "FCP_ms": 925.065,
+        "SI_ms": 6429
+      },
+      "rawFile": "raw/codingvalley.com_ldm_6_run1.json"
+    },
+    {
+      "url": "https://codingvalley.com/ldm/7",
+      "runIndex": 1,
+      "fetchedAt": "2026-01-16T08:11:25.070Z",
+      "performanceScore": 90,
+      "metrics": {
+        "LCP_ms": 1509.908,
+        "INP_ms": null,
+        "CLS": null,
+        "TBT_ms": null,
+        "FCP_ms": 1348.514,
+        "SI_ms": 1531
+      },
+      "rawFile": "raw/codingvalley.com_ldm_7_run1.json"
+    },
+    {
+      "url": "https://codingvalley.com/ldm/9",
+      "runIndex": 1,
+      "fetchedAt": "2026-01-16T08:12:09.889Z",
+      "performanceScore": 98,
+      "metrics": {
+        "LCP_ms": 985.923,
+        "INP_ms": null,
+        "CLS": null,
+        "TBT_ms": 24.708999877929728,
+        "FCP_ms": 891.666,
+        "SI_ms": 925
+      },
+      "rawFile": "raw/codingvalley.com_ldm_9_run1.json"
+    },
+    {
+      "url": "https://codingvalley.com/new-page",
+      "runIndex": 1,
+      "fetchedAt": "2026-01-16T08:12:47.206Z",
+      "performanceScore": 0,
+      "metrics": {
+        "LCP_ms": null,
+        "INP_ms": null,
+        "CLS": null,
+        "TBT_ms": null,
+        "FCP_ms": null,
+        "SI_ms": null
+      },
+      "rawFile": "raw/codingvalley.com_new-page_run1.json"
+    },
+    {
+      "url": "https://toss.im/",
+      "runIndex": 1,
+      "fetchedAt": "2026-01-16T08:13:07.048Z",
+      "performanceScore": 99,
+      "metrics": {
+        "LCP_ms": 427.493,
+        "INP_ms": null,
+        "CLS": 0.0000790718967699767,
+        "TBT_ms": 89.07300000000004,
+        "FCP_ms": 185.55,
+        "SI_ms": 323
+      },
+      "rawFile": "raw/toss.im_run1.json"
+    }
+  ]
+}
