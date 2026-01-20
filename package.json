@@ -6,7 +6,7 @@
   "scripts": {
     "measure": "node measure.js",
     "serve": "node server.js",
-    "serve:static": "npx serve web -l 3000"
+    "serve:static": "npx serve web -l 4500"
   },
   "dependencies": {
     "lighthouse": "^12.0.0",

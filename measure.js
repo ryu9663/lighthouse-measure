@@ -116,14 +116,43 @@ async function measureUrl(url, runIndex, chrome) {
   };
 }
 
+// Parse command line arguments
+function parseArgs() {
+  const args = process.argv.slice(2);
+  const result = { urls: null };
+
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '--url' && args[i + 1]) {
+      // 단일 URL (하위 호환)
+      result.urls = [args[i + 1]];
+      i++;
+    } else if (args[i] === '--urls' && args[i + 1]) {
+      // 콤마로 구분된 URL들
+      const urlsArg = args[i + 1];
+      result.urls = urlsArg.split(',').map(u => u.trim()).filter(u => u.length > 0);
+      i++;
+    }
+  }
+
+  return result;
+}
+
 // Main measurement function
 async function main() {
   console.log('Lighthouse Performance Measurement Tool');
   console.log('======================================\n');
 
-  // Load URLs
-  const urlsPath = path.join(__dirname, 'urls.json');
-  const urls = JSON.parse(fs.readFileSync(urlsPath, 'utf-8'));
+  const cliArgs = parseArgs();
+
+  // Load URLs (커맨드라인 인자가 있으면 해당 URL들, 없으면 urls.json)
+  let urls;
+  if (cliArgs.urls && cliArgs.urls.length > 0) {
+    console.log(`Custom URL mode: measuring ${cliArgs.urls.length} URL(s)`);
+    urls = cliArgs.urls;
+  } else {
+    const urlsPath = path.join(__dirname, 'urls.json');
+    urls = JSON.parse(fs.readFileSync(urlsPath, 'utf-8'));
+  }
 
   console.log(`URLs to measure: ${urls.length}`);
   console.log(`Runs per URL: ${RUNS_PER_URL}`);

@@ -1,6 +1,7 @@
 // Global data
 let data = null;
 let currentSort = 'default';
+let customUrlList = []; // URL 배열
 
 // DOM Elements
 const loadingEl = document.getElementById('loading');
@@ -14,6 +15,12 @@ const overviewSection = document.getElementById('overviewSection');
 
 // Measure control elements
 const measureBtn = document.getElementById('measureBtn');
+const customMeasureBtn = document.getElementById('customMeasureBtn');
+const customUrlInput = document.getElementById('customUrlInput');
+const addUrlBtn = document.getElementById('addUrlBtn');
+const urlListEl = document.getElementById('urlList');
+const urlCountEl = document.getElementById('urlCount');
+const clearUrlsBtn = document.getElementById('clearUrlsBtn');
 const measureStatus = document.getElementById('measureStatus');
 const statusOutput = document.getElementById('statusOutput');
 
@@ -23,9 +30,26 @@ let statusPollInterval = null;
 document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
-  // Setup measure button
+  // Setup measure buttons
   if (measureBtn) {
-    measureBtn.addEventListener('click', startMeasurement);
+    measureBtn.addEventListener('click', () => startMeasurement());
+  }
+  if (customMeasureBtn) {
+    customMeasureBtn.addEventListener('click', () => startCustomMeasurement());
+  }
+  if (addUrlBtn) {
+    addUrlBtn.addEventListener('click', () => addUrlToList());
+  }
+  if (clearUrlsBtn) {
+    clearUrlsBtn.addEventListener('click', () => clearUrlList());
+  }
+  if (customUrlInput) {
+    customUrlInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addUrlToList();
+      }
+    });
   }
 
   try {
@@ -41,22 +65,30 @@ async function init() {
 }
 
 // Measurement functions
-async function startMeasurement() {
+async function startMeasurement(customUrls = null) {
   try {
-    measureBtn.disabled = true;
-    measureBtn.classList.add('running');
-    measureBtn.querySelector('.btn-icon').textContent = '◉';
-    measureBtn.querySelector('.btn-text').textContent = '측정 중...';
+    disableMeasureButtons(true);
 
     measureStatus.style.display = 'block';
     updateStatusUI('running', '측정 시작 중...', []);
 
-    const response = await fetch('/api/measure', { method: 'POST' });
+    const options = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    };
+
+    if (customUrls) {
+      // 배열로 전달 (단일 URL도 배열로 처리)
+      const urls = Array.isArray(customUrls) ? customUrls : [customUrls];
+      options.body = JSON.stringify({ urls });
+    }
+
+    const response = await fetch('/api/measure', options);
     const result = await response.json();
 
     if (!result.success) {
       updateStatusUI('error', result.message, []);
-      resetMeasureButton();
+      disableMeasureButtons(false);
       return;
     }
 
@@ -65,7 +97,120 @@ async function startMeasurement() {
 
   } catch (error) {
     updateStatusUI('error', `오류: ${error.message}`, []);
-    resetMeasureButton();
+    disableMeasureButtons(false);
+  }
+}
+
+// URL 리스트 관리 함수
+function addUrlToList() {
+  const url = customUrlInput.value.trim();
+
+  if (!url) {
+    return;
+  }
+
+  // URL 유효성 검사
+  try {
+    new URL(url);
+  } catch {
+    updateStatusUI('error', '올바른 URL 형식이 아닙니다.', []);
+    measureStatus.style.display = 'block';
+    return;
+  }
+
+  // 중복 체크
+  if (customUrlList.includes(url)) {
+    updateStatusUI('error', '이미 추가된 URL입니다.', []);
+    measureStatus.style.display = 'block';
+    return;
+  }
+
+  customUrlList.push(url);
+  customUrlInput.value = '';
+  renderUrlList();
+}
+
+function removeUrlFromList(index) {
+  customUrlList.splice(index, 1);
+  renderUrlList();
+}
+
+function clearUrlList() {
+  customUrlList = [];
+  renderUrlList();
+}
+
+function renderUrlList() {
+  urlListEl.innerHTML = '';
+
+  customUrlList.forEach((url, index) => {
+    const tag = document.createElement('div');
+    tag.className = 'url-tag';
+    tag.innerHTML = `
+      <span class="url-tag-text" title="${url}">${url}</span>
+      <button class="url-tag-remove" data-index="${index}">&times;</button>
+    `;
+    urlListEl.appendChild(tag);
+  });
+
+  // 삭제 버튼 이벤트
+  urlListEl.querySelectorAll('.url-tag-remove').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const index = parseInt(e.target.dataset.index);
+      removeUrlFromList(index);
+    });
+  });
+
+  // UI 업데이트
+  const count = customUrlList.length;
+  if (count > 0) {
+    urlCountEl.textContent = `${count}개 URL`;
+    clearUrlsBtn.style.display = 'inline-block';
+    customMeasureBtn.style.display = 'inline-flex';
+  } else {
+    urlCountEl.textContent = '';
+    clearUrlsBtn.style.display = 'none';
+    customMeasureBtn.style.display = 'none';
+  }
+}
+
+async function startCustomMeasurement() {
+  if (customUrlList.length === 0) {
+    updateStatusUI('error', 'URL을 추가해주세요.', []);
+    measureStatus.style.display = 'block';
+    return;
+  }
+
+  await startMeasurement(customUrlList);
+}
+
+function disableMeasureButtons(disabled) {
+  if (measureBtn) {
+    measureBtn.disabled = disabled;
+    if (disabled) {
+      measureBtn.classList.add('running');
+      measureBtn.querySelector('.btn-icon').textContent = '◉';
+      measureBtn.querySelector('.btn-text').textContent = '측정 중...';
+    } else {
+      measureBtn.classList.remove('running');
+      measureBtn.querySelector('.btn-icon').textContent = '▶';
+      measureBtn.querySelector('.btn-text').textContent = '전체 측정';
+    }
+  }
+  if (customMeasureBtn) {
+    customMeasureBtn.disabled = disabled;
+    if (disabled) {
+      customMeasureBtn.classList.add('running');
+      customMeasureBtn.querySelector('.btn-icon').textContent = '◉';
+      customMeasureBtn.querySelector('.btn-text').textContent = '측정 중...';
+    } else {
+      customMeasureBtn.classList.remove('running');
+      customMeasureBtn.querySelector('.btn-icon').textContent = '▶';
+      customMeasureBtn.querySelector('.btn-text').textContent = 'URL 측정';
+    }
+  }
+  if (customUrlInput) {
+    customUrlInput.disabled = disabled;
   }
 }
 
@@ -88,13 +233,13 @@ async function pollMeasureStatus() {
         setTimeout(reloadData, 1000);
       }
 
-      resetMeasureButton();
+      disableMeasureButtons(false);
     }
   } catch (error) {
     clearInterval(statusPollInterval);
     statusPollInterval = null;
     updateStatusUI('error', `상태 확인 오류: ${error.message}`, []);
-    resetMeasureButton();
+    disableMeasureButtons(false);
   }
 }
 
@@ -109,13 +254,6 @@ function updateStatusUI(state, text, output) {
     statusOutput.textContent = output.slice(-20).join('\n');
     statusOutput.scrollTop = statusOutput.scrollHeight;
   }
-}
-
-function resetMeasureButton() {
-  measureBtn.disabled = false;
-  measureBtn.classList.remove('running');
-  measureBtn.querySelector('.btn-icon').textContent = '▶';
-  measureBtn.querySelector('.btn-text').textContent = '측정 시작';
 }
 
 async function reloadData() {

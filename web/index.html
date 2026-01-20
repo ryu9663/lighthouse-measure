@@ -19,10 +19,31 @@
     <main id="main" style="display: none;">
       <!-- Measure Control -->
       <section class="measure-control">
-        <button id="measureBtn" class="measure-btn">
-          <span class="btn-icon">▶</span>
-          <span class="btn-text">측정 시작</span>
-        </button>
+        <div class="measure-options">
+          <div class="measure-option">
+            <button id="measureBtn" class="measure-btn">
+              <span class="btn-icon">▶</span>
+              <span class="btn-text">전체 측정</span>
+            </button>
+            <span class="measure-hint">urls.json의 모든 URL 측정</span>
+          </div>
+          <div class="measure-divider">또는</div>
+          <div class="custom-url-section">
+            <div class="url-input-row">
+              <input type="url" id="customUrlInput" placeholder="https://example.com" />
+              <button id="addUrlBtn" class="add-url-btn">+ 추가</button>
+            </div>
+            <div id="urlList" class="url-list"></div>
+            <div class="url-actions">
+              <span id="urlCount" class="url-count"></span>
+              <button id="clearUrlsBtn" class="clear-urls-btn" style="display: none;">전체 삭제</button>
+              <button id="customMeasureBtn" class="measure-btn custom-btn" style="display: none;">
+                <span class="btn-icon">▶</span>
+                <span class="btn-text">URL 측정</span>
+              </button>
+            </div>
+          </div>
+        </div>
         <div id="measureStatus" class="measure-status" style="display: none;">
           <div class="status-header">
             <span class="status-indicator"></span>

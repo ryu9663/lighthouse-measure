@@ -86,6 +86,155 @@ header h1 {
   font-size: 0.9rem;
 }
 
+.measure-options {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.measure-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.measure-hint {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.measure-divider {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.custom-url-section {
+  flex: 1;
+  min-width: 300px;
+}
+
+.url-input-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.url-input-row input {
+  flex: 1;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+
+.url-input-row input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.url-input-row input::placeholder {
+  color: #aaa;
+}
+
+.add-url-btn {
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #667eea;
+  background: #fff;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.add-url-btn:hover {
+  background: #667eea;
+  color: #fff;
+}
+
+.url-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.url-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f0f4ff;
+  border: 1px solid #667eea;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #333;
+  max-width: 100%;
+}
+
+.url-tag-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 250px;
+}
+
+.url-tag-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: #667eea;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  transition: background 0.2s;
+}
+
+.url-tag-remove:hover {
+  background: #ff4e42;
+}
+
+.url-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.url-count {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.clear-urls-btn {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  color: #888;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clear-urls-btn:hover {
+  background: #ff4e42;
+  color: #fff;
+  border-color: #ff4e42;
+}
+
+.measure-btn.custom-btn {
+  white-space: nowrap;
+}
+
 .measure-status {
   margin-top: 15px;
   padding: 15px;
